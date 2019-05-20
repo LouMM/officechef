@@ -1,11 +1,4 @@
-import { resolve as _resolve } from "path";
-import html_webpack_plugin from "html-webpack-plugin";
-
-const htmlPlugin = new html_webpack_plugin({
-    template: "./src/index.html",
-    filename: "./index.html",
-    inject: false
-});
+const path = require("path");
 
 const config = {
     target: "electron-main",
@@ -13,12 +6,12 @@ const config = {
     entry: "./src/main.ts",
     output: {
         filename: "main.js",
-        path: _resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
             {
-                test: /\.(ts|tsx)$/,
+                test: /\.(ts)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "ts-loader"
@@ -27,15 +20,14 @@ const config = {
         ]
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".js"]
     },
     node: {
         __dirname: false,
         __filename: false
-    },
-    plugins: [htmlPlugin]
+    }
 };
 
-export default (env, argv) => {
+module.exports = (env, argv) => {
     return config;
 };
